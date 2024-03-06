@@ -22,7 +22,7 @@ appRouter.post("/todos", async (req, res) => {
   }
 
   const result = await db.query(
-    "INSERT into todos VALUES(DEFAULT, $1, $2) RETURNING ",
+    "INSERT into todos VALUES(DEFAULT, $1, $2) RETURNING *",
     [title, description]
   );
 
