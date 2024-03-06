@@ -6,8 +6,9 @@ const appRouter = Router();
 appRouter.get("/todos", async (_req, res) => {
   try {
     const result = await db.query("SELECT * from todos");
+    const idsOnly = result.rows.map((r) => r.id);
 
-    res.status(200).json({ result: result.rows });
+    res.status(200).json({ result: idsOnly });
   } catch (err) {
     res
       .status(500)
