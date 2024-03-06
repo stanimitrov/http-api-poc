@@ -10,11 +10,11 @@ appRouter.get("/todos", async (_req, res) => {
     const result = await db.query(`SELECT * from ${TODOS_TABLE}`);
     const idsOnly = result.rows.map((r) => r.id);
 
-    res.status(200).json({ result: idsOnly });
+    return res.status(200).json({ result: idsOnly });
   } catch (err) {
-    res
+    return res
       .status(500)
-      .json({ error: "Something went wrong with fetching the todos" });
+      .json({ error: "Something went wrong with fetching the todos. " + err });
   }
 });
 
@@ -27,12 +27,20 @@ appRouter.post("/todos", async (req, res) => {
     });
   }
 
-  const result = await db.query(
-    `INSERT into ${TODOS_TABLE} VALUES(DEFAULT, $1, $2) RETURNING *`,
-    [title, description]
-  );
+  try {
+    const result = await db.query(
+      `INSERT into ${TODOS_TABLE} (title, description) VALUES ($1, $2) RETURNING id`,
+      [title, description]
+    );
 
-  console.log(result.rows);
+    return res.status(200).json({
+      result: result.rows[0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: "Something went wrong with creating a new todo. " + err,
+    });
+  }
 });
 
 module.exports = {
