@@ -22,7 +22,9 @@ appRouter.post("/todos", async (req, res) => {
   const { title, description } = req.body;
 
   if (!title || !description) {
-    return res.send("title and description must be provided first");
+    return res.status(400).json({
+      error: "The 'title' and 'description' fields must be provided",
+    });
   }
 
   const result = await db.query(
