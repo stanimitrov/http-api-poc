@@ -3,14 +3,15 @@ const { db } = require("./postgrePool");
 
 const appRouter = Router();
 
-appRouter.get("/todos", async (req, res, next) => {
+appRouter.get("/todos", async (_req, res) => {
   try {
     const result = await db.query("SELECT * from todos");
 
-    res.send(result.rows);
-    console.log(result.rows);
+    res.status(200).json({ result: result.rows });
   } catch (err) {
-    console.log(err);
+    res
+      .status(500)
+      .json({ error: "Something went wrong with fetching the todos" });
   }
 });
 
