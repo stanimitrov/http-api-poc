@@ -5,6 +5,35 @@ const TODOS_TABLE = "todos";
 
 const todosRouter = Router();
 
+todosRouter.get("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({
+      error: "The 'id' field must be provided!",
+    });
+  }
+
+  if (isNaN(id)) {
+    return res.status(400).json({
+      error: "The 'id' field must a number!",
+    });
+  }
+
+  try {
+    const selectResult = await db.query(
+      `Select * from ${TODOS_TABLE} where id = $1`,
+      [id]
+    );
+
+    return res.status(200).json({ result: selectResult.rows });
+  } catch (err) {
+    return res.status(500).json({
+      error: "Something went wrong with fetching the todo. " + err,
+    });
+  }
+});
+
 todosRouter.get("/todos", async (_req, res) => {
   try {
     const result = await db.query(`SELECT * from ${TODOS_TABLE}`);
