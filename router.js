@@ -1,11 +1,13 @@
 const { Router } = require("express");
 const { db } = require("./postgrePool");
 
+const TODOS_TABLE = "todos";
+
 const appRouter = Router();
 
 appRouter.get("/todos", async (_req, res) => {
   try {
-    const result = await db.query("SELECT * from todos");
+    const result = await db.query(`SELECT * from ${TODOS_TABLE}`);
     const idsOnly = result.rows.map((r) => r.id);
 
     res.status(200).json({ result: idsOnly });
@@ -24,7 +26,7 @@ appRouter.post("/todos", async (req, res) => {
   }
 
   const result = await db.query(
-    "INSERT into todos VALUES(DEFAULT, $1, $2) RETURNING *",
+    `INSERT into ${TODOS_TABLE} VALUES(DEFAULT, $1, $2) RETURNING *`,
     [title, description]
   );
 
