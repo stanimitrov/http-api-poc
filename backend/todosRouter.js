@@ -26,7 +26,7 @@ todosRouter.get("/todos/:id", async (req, res) => {
       [id]
     );
 
-    return res.status(200).json({ result: selectResult.rows });
+    return res.status(200).json({ result: selectResult.rows[0] });
   } catch (err) {
     return res.status(500).json({
       error: "Something went wrong with fetching the todo. " + err,
