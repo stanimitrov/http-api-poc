@@ -1,5 +1,5 @@
-import { getAllTodos } from "../../api/todos/getAllTodos";
-import { getTodo } from "../../api/todos/getTodo";
+import { getAllTodos } from "../../api/todos/getAllTodos.js";
+import { getTodo } from "../../api/todos/getTodo.js";
 
 export function renderTodos() {
   organizeTodosInArray().then((todos) => {

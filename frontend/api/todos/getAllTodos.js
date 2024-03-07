@@ -1,4 +1,4 @@
-import { endpoints } from "../endpoints";
+import { endpoints } from "../endpoints.js";
 
 export async function getAllTodos() {
   try {
