@@ -1,34 +1,42 @@
-const getAllTodos = async () => {
+$(() => {
+  renderTodos();
+});
+
+async function getAllTodos() {
   try {
     const response = await fetch("http://localhost:3000/todos");
 
     return response.json();
   } catch (err) {
-    console.log(err);
+    console.error("Something went wrong while fetching the todos. " + err);
   }
-};
+}
 
-const getTodo = async (id) => {
+async function getTodo(id) {
   try {
     const response = await fetch(`http://localhost:3000/todos/${id}`);
 
     return response.json();
   } catch (err) {
-    console.log(err);
+    console.error("Something went wrong while fetching the todo. " + err);
   }
-};
+}
 
-const organizeTodosInArray = async () => {
-  const { result: idsOfTodos } = await getAllTodos();
+async function organizeTodosInArray() {
+  try {
+    const { result: idsOfTodos } = await getAllTodos();
 
-  const todosPromiseMap = idsOfTodos.map(async (id) => {
-    return await getTodo(id);
-  });
+    const todosPromiseMap = idsOfTodos.map(async (id) => {
+      return await getTodo(id);
+    });
 
-  return (await Promise.all(todosPromiseMap)).map((v) => v.result);
-};
+    return (await Promise.all(todosPromiseMap)).map((v) => v.result);
+  } catch (err) {
+    console.error("Something went wrong while organizing the todos. " + err);
+  }
+}
 
-$(() => {
+function renderTodos() {
   organizeTodosInArray().then((todos) => {
     todos.map((t) => {
       $("#table-body").append(
@@ -65,4 +73,4 @@ $(() => {
       );
     });
   });
-});
+}
