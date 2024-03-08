@@ -10,8 +10,6 @@ $(() => {
   // Render all todos from the DB upon page load
   renderTodos();
 
-  $(".alert").show();
-
   // Display the modal upon "Create Todo" button click
   handleCreateTodoClick();
 
