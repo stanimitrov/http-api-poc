@@ -15,7 +15,7 @@ $(() => {
   checkEmptyFieldsAndEnableSubmitButton();
 
   // Handle the "Create" (submit) button click in the "Create Todo" modal
-  handleSubmitTodoClick();
+  $("#submit-create-todo-btn").on("click", handleSubmitTodoClick);
 
   $("#table-body").on("click", "#delete-todo-button", handleDeleteTodoClick);
 });
