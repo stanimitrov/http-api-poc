@@ -1,0 +1,9 @@
+{
+  "typeAcquisition": {
+    "include": ["jquery"]
+  },
+  "compilerOptions": {
+    "checkJs": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+  }
+}

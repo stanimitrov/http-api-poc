@@ -26,7 +26,7 @@ todosRouter.get("/todos/:id", async (req, res) => {
       [id]
     );
 
-    return res.status(200).json({ result: selectResult.rows });
+    return res.status(200).json({ result: selectResult.rows[0] });
   } catch (err) {
     return res.status(500).json({
       error: "Something went wrong with fetching the todo. " + err,
@@ -88,12 +88,14 @@ todosRouter.delete("/todos/:id", async (req, res) => {
   }
 
   try {
-    const { row } = await db.query(
+    const { rows } = await db.query(
       `SELECT * from ${TODOS_TABLE} Where id = $1`,
       [id]
     );
 
-    if (!row) {
+    const todo = rows[0];
+
+    if (!todo) {
       return res
         .status(404)
         .json({ error: "A todo with id: '" + id + "' was not found" });
