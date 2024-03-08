@@ -3,9 +3,7 @@ import { getTodo } from "../../api/todos/getTodo.js";
 import { appendTodoToTableBody } from "./appendTodoToTableBody.js";
 
 export function renderTodos() {
-  organizeTodosInArray().then((todos) =>
-    todos.map((t) => appendTodoToTableBody(t))
-  );
+  organizeTodosInArray().then((todos) => todos.map(appendTodoToTableBody));
 }
 
 async function organizeTodosInArray() {

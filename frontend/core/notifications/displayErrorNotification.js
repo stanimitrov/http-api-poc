@@ -4,7 +4,7 @@ export const displayErrorNotification = (text) => {
   $("#alerts-placeholder").append(
     $("<div>")
       .addClass(
-        "alert alert-danger alert-dismissible show z-3 position-fixed bottom-0 w-25"
+        "alert alert-danger alert-dismissible show z-3 position-fixed bottom-0 w-fit"
       )
       .attr("role", "alert")
       .append($("<span>").text(text))

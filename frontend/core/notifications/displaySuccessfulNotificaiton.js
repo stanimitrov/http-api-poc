@@ -4,7 +4,7 @@ export const displaySuccessfulNotification = (text) => {
   $("#alerts-placeholder").append(
     $("<div>")
       .addClass(
-        "alert alert-success alert-dismissible show z-3 position-fixed bottom-0 w-25"
+        "alert alert-success alert-dismissible show z-3 position-fixed bottom-0 w-fit"
       )
       .attr("role", "alert")
       .append($("<span>").text(text))
