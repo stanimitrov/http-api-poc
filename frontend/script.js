@@ -9,10 +9,13 @@ $(() => {
   renderTodos();
 
   // Display the modal upon "Create Todo" button click
-  handleCreateTodoClick();
+  $("#create-todo-btn").on("click", handleCreateTodoClick);
 
   // Enable the "Create" button in the "Create Todo" modal
-  checkEmptyFieldsAndEnableSubmitButton();
+  $("#todo-description-input, #todo-title-input").on(
+    "keyup",
+    checkEmptyFieldsAndEnableSubmitButton
+  );
 
   // Handle the "Create" (submit) button click in the "Create Todo" modal
   $("#submit-create-todo-btn").on("click", handleSubmitTodoClick);
