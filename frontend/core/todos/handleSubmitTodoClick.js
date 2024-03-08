@@ -5,8 +5,8 @@ import { displaySuccessfulNotification } from "../notifications/displaySuccessfu
 import { appendTodoToTableBody } from "./appendTodoToTableBody.js";
 
 export const handleSubmitTodoClick = async () => {
-  const todoTitleInput = $("#todo-title-input");
-  const todoDescriptionInput = $("#todo-description-input");
+  const todoTitleInput = $("#create-todo-title-input");
+  const todoDescriptionInput = $("#create-todo-description-input");
 
   try {
     const res = await createTodo(

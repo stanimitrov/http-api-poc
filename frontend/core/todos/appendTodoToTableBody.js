@@ -18,6 +18,8 @@ export const appendTodoToTableBody = (todo) => {
             .append(
               $("<button>")
                 .attr("id", "edit-todo-button")
+                .attr("data-bs-toggle", "modal")
+                .attr("data-bs-target", "#edit-todo-modal")
                 .attr("type", "button")
                 .attr("class", "btn btn-primary")
                 .text("Edit")
