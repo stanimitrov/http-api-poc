@@ -36,14 +36,14 @@ $(() => {
       const res = await deleteTodo(todoId);
 
       if (!res.ok) {
-        displayErrorNotification("The todo was not removed...");
+        displayErrorNotification("The todo was not deleted...");
 
         return;
       }
 
       todoRow.remove();
 
-      displaySuccessfulNotification("The todo was remove successfully!");
+      displaySuccessfulNotification("The todo was deleted successfully!");
     } catch (err) {
       console.error(err);
     }

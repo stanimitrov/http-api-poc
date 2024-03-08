@@ -1,5 +1,7 @@
+import { removeNotificationAfter3s } from "./removeNotificationAfter3s.js";
+
 export const displaySuccessfulNotification = (text) => {
-  $("body").append(
+  $("#alerts-placeholder").append(
     $("<div>")
       .addClass(
         "alert alert-success alert-dismissible show z-3 position-fixed bottom-0 w-25"
@@ -14,4 +16,6 @@ export const displaySuccessfulNotification = (text) => {
           .addClass("btn-close")
       )
   );
+
+  removeNotificationAfter3s();
 };
