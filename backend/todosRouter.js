@@ -88,12 +88,14 @@ todosRouter.delete("/todos/:id", async (req, res) => {
   }
 
   try {
-    const { row } = await db.query(
+    const { rows } = await db.query(
       `SELECT * from ${TODOS_TABLE} Where id = $1`,
       [id]
     );
 
-    if (!row) {
+    const todo = rows[0];
+
+    if (!todo) {
       return res
         .status(404)
         .json({ error: "A todo with id: '" + id + "' was not found" });
