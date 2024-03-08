@@ -1,43 +1,11 @@
 import { getAllTodos } from "../../api/todos/getAllTodos.js";
 import { getTodo } from "../../api/todos/getTodo.js";
+import { appendTodoToTableBody } from "./appendTodoToTableBody.js";
 
 export function renderTodos() {
-  organizeTodosInArray().then((todos) => {
-    todos.map((t) => {
-      $("#table-body").append(
-        $("<tr>")
-          .attr("cellpadding", "6")
-          .append(
-            $("<th>")
-              .attr("scope", "row")
-              .attr("class", "align-middle")
-              .text(t.id)
-          )
-          .append($("<td>").attr("class", "align-middle").text(t.title))
-          .append($("<td>").attr("class", "align-middle").text(t.description))
-          .append(
-            $("<td>").append(
-              $("<div>")
-                .attr("class", "d-flex gap-2")
-                .append(
-                  $("<button>")
-                    .attr("id", "edit-todo-button")
-                    .attr("type", "button")
-                    .attr("class", "btn btn-primary")
-                    .text("Edit")
-                )
-                .append(
-                  $("<button>")
-                    .attr("id", "delete-todo-button")
-                    .attr("type", "button")
-                    .attr("class", "btn btn-danger")
-                    .text("Delete")
-                )
-            )
-          )
-      );
-    });
-  });
+  organizeTodosInArray().then((todos) =>
+    todos.map((t) => appendTodoToTableBody(t))
+  );
 }
 
 async function organizeTodosInArray() {

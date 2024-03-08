@@ -1,4 +1,6 @@
 import { createTodo } from "../../api/todos/createTodo.js";
+import { getTodo } from "../../api/todos/getTodo.js";
+import { appendTodoToTableBody } from "./appendTodoToTableBody.js";
 
 export const handleSubmitTodoClick = async () => {
   $("#submit-create-todo-btn").on("click", async () => {
@@ -34,6 +36,11 @@ export const handleSubmitTodoClick = async () => {
 
       // Remove the error message from the modal if it was there
       $("#create-todo-error-message").remove();
+
+      const createdTodoId = (await res.json())?.result.id;
+      const newlyCreatedTodo = (await getTodo(createdTodoId))?.result;
+
+      appendTodoToTableBody(newlyCreatedTodo);
     } catch (err) {
       console.error(err);
     }
