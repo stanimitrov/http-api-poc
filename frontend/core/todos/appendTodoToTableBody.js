@@ -2,6 +2,7 @@ export const appendTodoToTableBody = (todo) => {
   $("#table-body").append(
     $("<tr>")
       .attr("cellpadding", "6")
+      .attr("key", todo.id)
       .append(
         $("<th>")
           .attr("scope", "row")

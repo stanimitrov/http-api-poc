@@ -1,3 +1,6 @@
+import { deleteTodo } from "./api/todos/deleteTodo.js";
+import { displayErrorNotification } from "./core/notifications/displayErrorNotification.js";
+import { displaySuccessfulNotification } from "./core/notifications/displaySuccessfulNotificaiton.js";
 import { checkEmptyFieldsAndEnableSubmitButton } from "./core/todos/checkEmptyFieldsAndEnableSubmitButton.js";
 import { handleCreateTodoClick } from "./core/todos/handleCreateTodoClick.js";
 import { handleSubmitTodoClick } from "./core/todos/handleSubmitTodoClick.js";
@@ -7,6 +10,8 @@ $(() => {
   // Render all todos from the DB upon page load
   renderTodos();
 
+  $(".alert").show();
+
   // Display the modal upon "Create Todo" button click
   handleCreateTodoClick();
 
@@ -15,4 +20,34 @@ $(() => {
 
   // Handle the "Create" (submit) button click in the "Create Todo" modal
   handleSubmitTodoClick();
+
+  $("#table-body").on("click", "#delete-todo-button", async (e) => {
+    const todoRow = $(e.target).closest("tr");
+
+    if (!todoRow) {
+      return;
+    }
+
+    const todoId = todoRow.attr("key");
+
+    if (!todoId) {
+      return;
+    }
+
+    try {
+      const res = await deleteTodo(todoId);
+
+      if (!res.ok) {
+        displayErrorNotification("The todo was not removed...");
+
+        return;
+      }
+
+      todoRow.remove();
+
+      displaySuccessfulNotification("The todo was remove successfully!");
+    } catch (err) {
+      console.error(err);
+    }
+  });
 });
