@@ -19,7 +19,9 @@ export const handleDeleteTodoClick = async (e) => {
     const res = await deleteTodo(todoId);
 
     if (!res.ok) {
-      displayErrorNotification("The todo was not deleted...");
+      const errorMessage = (await res.json()).error;
+
+      displayErrorNotification(errorMessage);
 
       return;
     }
