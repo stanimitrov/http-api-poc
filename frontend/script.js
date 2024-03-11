@@ -3,9 +3,9 @@ import { getTodo } from "./api/todos/getTodo.js";
 import { displayErrorNotification } from "./core/notifications/displayErrorNotification.js";
 import { displaySuccessfulNotification } from "./core/notifications/displaySuccessfulNotificaiton.js";
 import { appendTodoToTableBody } from "./core/todos/appendTodoToTableBody.js";
-import { checkEmptyFieldsAndEnableSubmitButton } from "./core/todos/checkEmptyFieldsAndEnableSubmitButton.js";
 import { handleDeleteTodoClick } from "./core/todos/handleDeleteTodoClick.js";
 import { handleSubmitTodoClick } from "./core/todos/handleSubmitTodoClick.js";
+import { isFormSubmittable } from "./core/todos/isFormSubmittable.js";
 import { renderTodos } from "./core/todos/renderTodos.js";
 
 $(() => {
@@ -13,9 +13,22 @@ $(() => {
   renderTodos();
 
   // Enable the "Create" button in the "Create Todo" modal
-  $(
-    "#create-todo-description-input, #create-todo-title-input, #edit-todo-title-input, #edit-todo-description-input"
-  ).on("keyup", checkEmptyFieldsAndEnableSubmitButton);
+  $("#create-todo-description-input, #create-todo-title-input").on(
+    "keyup",
+    () =>
+      isFormSubmittable(
+        ["#create-todo-description-input", "#create-todo-title-input"],
+        "#submit-create-todo-btn"
+      )
+  );
+
+  // Enable the "Save" button in the "Edit Todo" modal
+  $("#edit-todo-title-input, #edit-todo-description-input").on("keyup", () =>
+    isFormSubmittable(
+      ["#edit-todo-title-input", "#edit-todo-description-input"],
+      "#submit-edit-todo-btn"
+    )
+  );
 
   // Handle the "Create" (submit) button click in the "Create Todo" modal
   $("#submit-create-todo-btn").on("click", handleSubmitTodoClick);
