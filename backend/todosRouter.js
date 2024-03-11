@@ -65,9 +65,9 @@ todosRouter.post("/todos", async (req, res) => {
     return res.status(200).json({
       result: result.rows[0],
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong with creating a new todo. " + err,
+      error: error.detail || "Something went wrong while creating the todo",
     });
   }
 });
