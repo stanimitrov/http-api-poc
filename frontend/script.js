@@ -1,10 +1,6 @@
-import { editTodo } from "./api/todos/editTodo.js";
-import { getTodo } from "./api/todos/getTodo.js";
-import { displayErrorNotification } from "./core/notifications/displayErrorNotification.js";
-import { displaySuccessfulNotification } from "./core/notifications/displaySuccessfulNotificaiton.js";
-import { appendTodoToTableBody } from "./core/todos/appendTodoToTableBody.js";
+import { handleEditTodoButtonClick } from "./core/todos/edit-todo/handleEditTodoButtonClick.js";
+import { handleSubmitEditedTodoButtonClick } from "./core/todos/edit-todo/handleSubmitEditedTodoButtonClick.js";
 import { handleDeleteTodoClick } from "./core/todos/handleDeleteTodoClick.js";
-import { handleEditTodoButtonClick } from "./core/todos/handleEditTodoButtonClick.js";
 import { handleSubmitTodoClick } from "./core/todos/handleSubmitTodoClick.js";
 import { isFormSubmittable } from "./core/todos/isFormSubmittable.js";
 import { renderTodos } from "./core/todos/renderTodos.js";
@@ -38,55 +34,5 @@ $(() => {
 
   $("#table-body").on("click", "#edit-todo-button", handleEditTodoButtonClick);
 
-  $("#submit-edit-todo-btn").on("click", async () => {
-    const editTodoTitleInput = $("#edit-todo-title-input");
-
-    const editTodoDescriptionInput = $("#edit-todo-description-input");
-
-    const todoId = sessionStorage.getItem("editTodoId");
-
-    if (!todoId) {
-      throw new Error("The 'todoId' is missing in the storage");
-    }
-
-    try {
-      const res = await editTodo(
-        todoId,
-        editTodoTitleInput.val(),
-        editTodoDescriptionInput.val()
-      );
-
-      if (!res.ok) {
-        const errorMessage = (await res.json()).error;
-        $("<span>")
-          .text(errorMessage)
-          .attr("id", "edit-todo-error-message")
-          .addClass("text-danger mt-2")
-          .appendTo("#edit-todo-modal-body");
-
-        return;
-      }
-
-      // Hide the modal from the UI if the request was successful
-      $(".modal-backdrop").remove();
-      $("#edit-todo-modal").toggle();
-      $("body").addClass("overflow-auto");
-
-      // Clean the input fields
-      editTodoTitleInput.val("");
-      editTodoDescriptionInput.val("");
-
-      const editedTodo = (await getTodo(todoId))?.result;
-
-      // Removes the row with the old values
-      $(`tr[key=${todoId}]`).remove();
-
-      // Appends a new row with the new values
-      !!editedTodo && appendTodoToTableBody(editedTodo);
-
-      displaySuccessfulNotification("You have successfully edited the todo!");
-    } catch (err) {
-      displayErrorNotification("Something went wrong while editing the todo");
-    }
-  });
+  $("#submit-edit-todo-btn").on("click", handleSubmitEditedTodoButtonClick);
 });
