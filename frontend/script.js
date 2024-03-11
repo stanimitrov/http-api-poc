@@ -4,6 +4,7 @@ import { displayErrorNotification } from "./core/notifications/displayErrorNotif
 import { displaySuccessfulNotification } from "./core/notifications/displaySuccessfulNotificaiton.js";
 import { appendTodoToTableBody } from "./core/todos/appendTodoToTableBody.js";
 import { handleDeleteTodoClick } from "./core/todos/handleDeleteTodoClick.js";
+import { handleEditTodoButtonClick } from "./core/todos/handleEditTodoButtonClick.js";
 import { handleSubmitTodoClick } from "./core/todos/handleSubmitTodoClick.js";
 import { isFormSubmittable } from "./core/todos/isFormSubmittable.js";
 import { renderTodos } from "./core/todos/renderTodos.js";
@@ -35,50 +36,18 @@ $(() => {
 
   $("#table-body").on("click", "#delete-todo-button", handleDeleteTodoClick);
 
-  $("#table-body").on("click", "#edit-todo-button", async (e) => {
-    const todoRow = $(e.target).closest("tr");
-
-    if (!todoRow) {
-      return;
-    }
-
-    const todoId = todoRow.attr("key");
-
-    if (!todoId) {
-      return;
-    }
-
-    const url = document.location.href;
-    const isTodoIdInUrl =
-      url.split("/").filter((e) => e.match("todoId")).length > 0;
-
-    if (!isTodoIdInUrl) {
-      history.replaceState({}, null, url + "todos?todoId=" + todoId);
-    } else {
-      const newUrl = url
-        .split("/")
-        .map((e) => {
-          if (e.includes("todos?todoId=")) {
-            return e.slice(0, -2) + todoId;
-          }
-
-          return e;
-        })
-        .join("/");
-
-      history.replaceState({}, null, newUrl);
-    }
-  });
+  $("#table-body").on("click", "#edit-todo-button", handleEditTodoButtonClick);
 
   $("#submit-edit-todo-btn").on("click", async () => {
     const editTodoTitleInput = $("#edit-todo-title-input");
 
     const editTodoDescriptionInput = $("#edit-todo-description-input");
 
-    const todoId = document.location.href
-      .split("/")
-      .filter((e) => e.includes("todos?todoId="))[0]
-      .slice(-2);
+    const todoId = sessionStorage.getItem("editTodoId");
+
+    if (!todoId) {
+      throw new Error("The 'todoId' is missing in the storage");
+    }
 
     try {
       const res = await editTodo(
