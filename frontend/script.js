@@ -12,7 +12,7 @@ $(() => {
   // Render all todos from the DB upon page load
   renderTodos();
 
-  // Enable the "Create" button in the "Create Todo" modal
+  // Check if the form in the "Create Todo" modal is valid and if so, enable the "Create" button
   $("#create-todo-description-input, #create-todo-title-input").on(
     "keyup",
     () =>
@@ -22,7 +22,7 @@ $(() => {
       )
   );
 
-  // Enable the "Save" button in the "Edit Todo" modal
+  // Check if the form in the "Edit Todo" modal is valid and if so, enable the "Save" button
   $("#edit-todo-title-input, #edit-todo-description-input").on("keyup", () =>
     isFormSubmittable(
       ["#edit-todo-title-input", "#edit-todo-description-input"],
