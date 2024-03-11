@@ -2,15 +2,19 @@ export const isFormSubmittable = (fieldsIds = [], buttonId) => {
   const isFormValid = validateFields(fieldsIds);
 
   if (!isFormValid) {
-    return;
+    addDisabledButtonAttribute(buttonId);
   } else {
     removeDisabledButtonAttribute(buttonId);
   }
 };
 
+const formatId = (id) => {
+  return id.startsWith("#") ? id : `#${id}`;
+};
+
 const validateFields = (fieldsIds = []) => {
   return fieldsIds.every((f) => {
-    const field = f.indexOf("#") === 0 ? f : `#${f}`;
+    const field = formatId(f);
 
     const fieldValue = $(field).val();
 
@@ -19,7 +23,13 @@ const validateFields = (fieldsIds = []) => {
 };
 
 const removeDisabledButtonAttribute = (buttonId) => {
-  const button = buttonId.indexOf("#") === 0 ? buttonId : `#${buttonId}`;
+  const button = formatId(buttonId);
 
   $(button).removeAttr("disabled");
+};
+
+const addDisabledButtonAttribute = (buttonId) => {
+  const button = formatId(buttonId);
+
+  $(button).attr("disabled", "true");
 };
