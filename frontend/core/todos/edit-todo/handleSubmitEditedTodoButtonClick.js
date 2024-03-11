@@ -3,13 +3,14 @@ import { getTodo } from "../../../api/todos/getTodo.js";
 import { displayErrorNotification } from "../../notifications/displayErrorNotification.js";
 import { displaySuccessfulNotification } from "../../notifications/displaySuccessfulNotificaiton.js";
 import { appendTodoToTableBody } from "../appendTodoToTableBody.js";
+import { getEditTodoIdFromSessionStorage } from "./editTodoIdGetterAndSetter.js";
 
 export const handleSubmitEditedTodoButtonClick = async () => {
   const editTodoTitleInput = $("#edit-todo-title-input");
 
   const editTodoDescriptionInput = $("#edit-todo-description-input");
 
-  const todoId = sessionStorage.getItem("editTodoId");
+  const todoId = getEditTodoIdFromSessionStorage();
 
   if (!todoId) {
     throw new Error("The 'todoId' is missing in the storage");

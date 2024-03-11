@@ -1,3 +1,5 @@
+import { setEditTodoIdInSessionStorage } from "./editTodoIdGetterAndSetter.js";
+
 export const handleEditTodoButtonClick = (e) => {
   const todoRow = $(e.target).closest("tr");
 
@@ -11,5 +13,5 @@ export const handleEditTodoButtonClick = (e) => {
     return;
   }
 
-  sessionStorage.setItem("editTodoId", todoId);
+  setEditTodoIdInSessionStorage(todoId);
 };
