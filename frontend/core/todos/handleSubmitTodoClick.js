@@ -15,10 +15,9 @@ export const handleSubmitTodoClick = async () => {
     );
 
     if (!res.ok) {
+      const errorMessage = (await res.json()).error;
       $("<span>")
-        .text(
-          "Ooops! A todo with this title and/or description already exists "
-        )
+        .text(errorMessage)
         .attr("id", "create-todo-error-message")
         .addClass("text-danger mt-2")
         .appendTo("#create-todo-modal-body");
