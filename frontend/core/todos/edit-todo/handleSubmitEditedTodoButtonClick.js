@@ -43,6 +43,9 @@ export const handleSubmitEditedTodoButtonClick = async () => {
     editTodoTitleInput.val("");
     editTodoDescriptionInput.val("");
 
+    // Remove the error message from the modal if it was there
+    $("#edit-todo-error-message").remove();
+
     const editedTodo = (await getTodo(todoId))?.result;
 
     // Removes the row with the old values
